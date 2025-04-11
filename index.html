@@ -20,10 +20,11 @@
             <div class="col-md-5 col-lg-4">
               <select name="option_door" id="option_door" class="form-control" onchange="select_door(this)">
                 <option value="">선택하세요</option>
-                <option value="도장민자">도장 민자</option>
-                <option value="도장NC디자인">도장 NC디자인</option>
-                <option value="하이그로시일반">하이그로시일반</option>
-                <option value="하이그로시기타">하이그로시기타</option>
+                <option value="도장 민자">도장 민자</option>
+                <option value="도장 NC디자인">도장 NC디자인</option>
+                <option value="한솔 일반 컬러">한솔 일반 컬러</option>
+                <option value="한솔 우드 컬러(무광)">한솔 우드 컬러(무광)</option>
+                <option value="한솔 스페셜 컬러(무광)">한솔 스페셜 컬러(무광)</option>
               </select>
             </div>
 
@@ -84,7 +85,7 @@
 
             <label for="door_hinges" class="col-md-1 col-lg-1 offset-lg-2 form-label">경첩</label>
             <div class="col-md-5 col-lg-4">
-              <input type="text" name="door_hinges" id="door_hinges" placeholder="좌경,위100,아래100/무보링" class="form-control" />
+              <input type="text" name="door_hinges" id="door_hinges" placeholder="좌경,위100,아래100/무경첩" class="form-control" />
               <p>경첩타공무료</p>
             </div>
           </div>
@@ -126,12 +127,16 @@
                 <input type="checkbox" name="shelf" id="shelf_6" value="마감판" class="form-check-input" onclick="toggleCheckbox(this)" />
               </div>
               <div class="form-check form-check-inline">
-                <label for="shelf_7" class="form-check-label">걸레받이</label>
-                <input type="checkbox" name="shelf" id="shelf_7" value="걸레받이" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <label for="shelf_7" class="form-check-label">붙박이</label>
+                <input type="checkbox" name="shelf" id="shelf_7" value="붙박이" class="form-check-input" onclick="toggleCheckbox(this)" />
               </div>
               <div class="form-check form-check-inline">
-                <label for="shelf_8" class="form-check-label">몰딩</label>
-                <input type="checkbox" name="shelf" id="shelf_8" value="몰딩" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <label for="shelf_8" class="form-check-label">걸레받이</label>
+                <input type="checkbox" name="shelf" id="shelf_8" value="걸레받이" class="form-check-input" onclick="toggleCheckbox(this)" />
+              </div>
+              <div class="form-check form-check-inline">
+                <label for="shelf_9" class="form-check-label">몰딩</label>
+                <input type="checkbox" name="shelf" id="shelf_9" value="몰딩" class="form-check-input" onclick="toggleCheckbox(this)" />
               </div>
             </div>
           </div>
