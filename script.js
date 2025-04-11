@@ -144,7 +144,7 @@ function validateDoorInput(values) {
   }
 
   if (!values.hinges) {
-    alert("경첩을 확인해주세요.");
+    alert("경첩란을 확인해주세요.");
     return false;
   }
 
@@ -214,10 +214,27 @@ async function addDoorToTable() {
     const match = priceData.find((item) => item["구분"] === values.type && item["가로"] === unitWidth && item["세로"] === unitHeight);
     if (match) {
       let totalPrice = match["가격"] * values.quantity;
-      if (values.options.includes("후면도장")) {
+      const hasBackPaint = values.options.includes("후면도장");
+      const nc = values.ncDesign;
+      const isHighNC = nc === "킹덤" || nc === "웨인스";
+      const isMidNC = nc === "(21T)미란다" || nc === "(21T)그랑디아";
+
+      if (hasBackPaint && (isHighNC || isMidNC)) {
+        if (isHighNC) {
+          totalPrice *= 1.5;
+        } else if (isMidNC) {
+          totalPrice *= 1.45;
+        }
+      } else if (hasBackPaint) {
         totalPrice *= 1.2;
+      } else if (isHighNC) {
+        totalPrice *= 1.3;
+      } else if (isMidNC) {
+        totalPrice *= 1.25;
       }
+
       cell6.textContent = totalPrice.toLocaleString();
+      showToast("도어를 담았습니다!");
     } else {
       cell6.textContent = "가격 없음";
       cell6.style.color = "red";
@@ -327,7 +344,7 @@ function addFbarToTable() {
 
   const totalPrice = widthIn100Units * pricePer100mm * fbarQuantity;
   cell6.textContent = totalPrice.toLocaleString();
-
+  showToast("F바를 담았습니다!");
   calculateTotalPrice();
 }
 
@@ -425,6 +442,7 @@ function addMaterialToTable() {
     cell6.textContent = "가격 정보 없음";
     cell6.style.color = "red";
   }
+  showToast("부자재를 담았습니다!");
 
   calculateTotalPrice();
 }
@@ -470,10 +488,12 @@ function calculateTotalPrice() {
 
   document.getElementById("totalPrice").textContent = "총 견적 금액: " + totalPrice.toLocaleString() + "원";
 
-  const unit1000 = Math.floor(totalPrice / 1000);
+  const unit10000 = Math.floor(totalPrice / 10000);
+  const unit1000 = Math.floor((totalPrice % 10000) / 1000);
   const unit100 = Math.floor((totalPrice % 1000) / 100);
 
-  document.getElementById("unit1000").textContent = `1000원 단위 ${unit1000}개`;
+  document.getElementById("unit10000").textContent = `10,000원 단위 ${unit10000}개`;
+  document.getElementById("unit1000").textContent = `1,000원 단위 ${unit1000}개`;
   document.getElementById("unit100").textContent = `100원 단위 ${unit100}개`;
 }
 
@@ -534,7 +554,7 @@ async function sendOrderEmail() {
       body: JSON.stringify(emailData),
     });
 
-    alert("견적서가 전송되었습니다!");
+    showToast("견적서가 전송되었습니다!");
   } catch (error) {
     console.error("이메일 전송 오류:", error);
     alert("이메일 전송 중 오류가 발생했습니다.");
@@ -545,3 +565,33 @@ document.addEventListener("DOMContentLoaded", function () {
   selectFbar();
   getMaterialData();
 });
+
+function showToast(message, duration = 2000) {
+  const id = "toast_" + Date.now();
+
+  Toastify({
+    text: `${message}<div id="${id}_bar" style="margin-top: 10px; height: 4px; background: rgba(255,255,255,0.6); border-radius: 3px; transform: scaleX(1); transform-origin: left; transition: transform ${duration}ms linear;"></div>`,
+    duration: duration,
+    gravity: "bottom",
+    position: "center",
+    escapeMarkup: false,
+    style: {
+      width: "100%",
+      maxWidth: "calc(100% - 40px)",
+      background: "rgba(33, 150, 243, 0.85)",
+      color: "#fff",
+      borderRadius: "16px",
+      padding: "16px 24px 10px 24px",
+      fontSize: "15px",
+      textAlign: "left",
+      boxShadow: "0 6px 16px rgba(0,0,0,0.2)",
+    },
+    stopOnFocus: true,
+    callback: () => {},
+  }).showToast();
+
+  setTimeout(() => {
+    const bar = document.getElementById(`${id}_bar`);
+    if (bar) bar.style.transform = "scaleX(0)";
+  }, 10);
+}
