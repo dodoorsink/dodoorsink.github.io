@@ -3,28 +3,26 @@
 도어
 
 */
-
 function select_door(select) {
   const door = select.value;
   const divisionSelect = document.getElementById("option_division");
+  const colorSelect = document.getElementById("option_color");
   const ncSelect = document.getElementById("option_nc");
 
-  divisionSelect.innerHTML = "<option value=''>선택하세요</option>"; // 초기화
+  divisionSelect.innerHTML = "<option value=''>선택하세요</option>";
   ncSelect.innerHTML = "<option value=''>선택하세요</option>";
-  ncSelect.disabled = true; // 초기화 시 NC 디자인 비활성화
+  colorSelect.innerHTML = "<option value=''>선택하세요</option>";
+  ncSelect.disabled = true;
+  divisionSelect.disabled = false;
 
   if (door) {
     const divisions = ["유광", "무광"];
-
-    // 구분 옵션을 추가
     divisions.forEach(function (division) {
       const option = document.createElement("option");
       option.value = division;
       option.textContent = division;
       divisionSelect.appendChild(option);
     });
-  } else {
-    // divisionSelect.innerHTML = "<option value=''>선택하세요</option>"; // 이미 초기화 상태
   }
 
   if (door === "도장 NC디자인") {
@@ -39,6 +37,17 @@ function select_door(select) {
           ncSelect.appendChild(option);
         });
       });
+  }
+
+  if (door === "한솔 우드 컬러(무광)" || door === "한솔 스페셜 컬러(무광)") {
+    const option = document.createElement("option");
+    option.value = "무광";
+    option.textContent = "무광";
+    divisionSelect.appendChild(option);
+
+    divisionSelect.value = "무광";
+    divisionSelect.disabled = true;
+    updateColorOptions(divisionSelect);
   }
 }
 
@@ -75,7 +84,7 @@ function adjustDoorWidth(delta) {
   } else {
     width -= width > 100 ? 100 : 10;
   }
-  width = Math.max(60, Math.min(width, 1200));
+  width = Math.max(0, Math.min(width, 1200));
   widthInput.value = width;
 }
 
@@ -84,7 +93,7 @@ function adjustDoorHeight(delta) {
   let height = parseInt(heightInput.value) || 0;
 
   height += delta * 100;
-  height = Math.max(100, Math.min(height, 2400));
+  height = Math.max(0, Math.min(height, 2400));
   heightInput.value = height;
 }
 
@@ -113,6 +122,45 @@ function getUnitValue(units, value) {
   return 0;
 }
 
+function validateDoorInput(values) {
+  if (!values.type) {
+    alert("도어를 선택해주세요.");
+    return false;
+  }
+
+  if (!values.color) {
+    alert("색상을 선택해주세요.");
+    return false;
+  }
+
+  if (!values.width || values.width < 0 || values.width > 1200) {
+    alert("가로 수치를 확인해주세요. (최대 1200mm)");
+    return false;
+  }
+
+  if (!values.height || values.height < 0 || values.height > 2400) {
+    alert("세로 수치를 확인해주세요. (최대 2400mm)");
+    return false;
+  }
+
+  if (!values.hinges) {
+    alert("경첩을 확인해주세요.");
+    return false;
+  }
+
+  if (!values.quantity || values.quantity < 1) {
+    alert("수량을 선택해주세요.");
+    return false;
+  }
+
+  if (!values.options || values.options.length === 0) {
+    alert("도어 종류(후면도장, 상부장 등)를 선택해주세요.");
+    return false;
+  }
+
+  return true;
+}
+
 async function addDoorToTable() {
   const values = {
     type: document.getElementById("option_door").value,
@@ -121,22 +169,21 @@ async function addDoorToTable() {
     width: parseInt(document.getElementById("door_width").value),
     height: parseInt(document.getElementById("door_height").value),
     hinges: document.getElementById("door_hinges").value,
-    quantity: parseInt(document.getElementById("quantity").value) || 1,
+    quantity: parseInt(document.getElementById("quantity").value),
     options: Array.from(document.querySelectorAll('input[name="shelf"]:checked')).map((cb) => cb.value),
   };
+
+  if (!validateDoorInput(values)) {
+    return;
+  }
+
   const tableBody = document.querySelector("#table tbody");
   const newRow = tableBody.insertRow();
 
-  const widthUnits = [199, 399, 599, 799, 999, 1199];
-  const heightUnits = [399, 799, 1199, 1399, 1599, 1799, 1999, 2399];
+  const widthUnits = [199, 399, 499, 599, 699, 799, 899, 999, 1099, 1199, 1200];
+  const heightUnits = [399, 499, 599, 699, 799, 899, 999, 1099, 1199, 1299, 1399, 1499, 1599, 1699, 1799, 1899, 1999, 2099, 2199, 2299, 2399, 2400];
   const unitWidth = getUnitValue(widthUnits, values.width);
   const unitHeight = getUnitValue(heightUnits, values.height);
-
-  // 추가 벨리데이션 필요
-  if (!unitWidth || !unitHeight) {
-    alert("도어 사이즈가 올바르지 않습니다.");
-    return;
-  }
 
   const cell1 = newRow.insertCell();
   cell1.innerHTML = '<input type="checkbox">';
@@ -171,7 +218,6 @@ async function addDoorToTable() {
         totalPrice *= 1.2;
       }
       cell6.textContent = totalPrice.toLocaleString();
-      alert("도어가 성공적으로 담겼습니다!");
     } else {
       cell6.textContent = "가격 없음";
       cell6.style.color = "red";
@@ -220,13 +266,35 @@ function adjustFbarQuantity(delta) {
 
   quantity += delta;
   quantity = Math.max(1, quantity);
-  quantityInput.value = quantity; // 값 업데이트
+  quantityInput.value = quantity;
+}
+
+function validateFbarInput(fbarColor, fbarWidth, fbarQuantity) {
+  if (!fbarColor) {
+    alert("색상을 선택해주세요.");
+    return false;
+  }
+
+  if (!fbarWidth || fbarWidth < 100 || fbarWidth > 2400) {
+    alert("길이를 확인해주세요. (최소 100mm ~ 최대 2400mm)");
+    return false;
+  }
+
+  if (!fbarQuantity || fbarQuantity < 1) {
+    alert("수량을 확인해주세요.");
+    return false;
+  }
+  return true;
 }
 
 function addFbarToTable() {
   const fbarColor = document.getElementById("option_fbar").value;
-  const fbarWidth = parseInt(document.getElementById("fbarWidth").value) || 0;
-  const fbarQuantity = parseInt(document.getElementById("fbarQuantity").value) || 1;
+  const fbarWidth = parseInt(document.getElementById("fbarWidth").value);
+  const fbarQuantity = parseInt(document.getElementById("fbarQuantity").value);
+
+  if (!validateFbarInput(fbarColor, fbarWidth, fbarQuantity)) {
+    return;
+  }
 
   const tableBody = document.querySelector("#table tbody");
   const newRow = tableBody.insertRow();
@@ -257,13 +325,8 @@ function addFbarToTable() {
   const cell6 = newRow.insertCell();
   cell6.classList.add("text-center");
 
-  if (fbarWidth < 100) {
-    cell6.textContent = "길이 오류";
-    cell6.style.color = "red";
-  } else {
-    const totalPrice = widthIn100Units * pricePer100mm * fbarQuantity;
-    cell6.textContent = totalPrice.toLocaleString();
-  }
+  const totalPrice = widthIn100Units * pricePer100mm * fbarQuantity;
+  cell6.textContent = totalPrice.toLocaleString();
 
   calculateTotalPrice();
 }
@@ -308,11 +371,27 @@ function adjustMaterialQuantity(delta) {
   quantityInput.value = quantity;
 }
 
+function validateMaterialInput(materialType, materialQuantity) {
+  if (!materialType) {
+    alert("종류를 선택해주세요.");
+    return false;
+  }
+
+  if (!materialQuantity || materialQuantity < 1) {
+    alert("수량을 확인해주세요.");
+    return false;
+  }
+  return true;
+}
+
 function addMaterialToTable() {
   const materialType = document.getElementById("option_material").value;
-  const materialQuantity = parseInt(document.getElementById("materialQuantity").value) || 1;
-  const material = materialData.find((item) => item.item === materialType);
+  const materialQuantity = parseInt(document.getElementById("materialQuantity").value);
 
+  if (!validateMaterialInput(materialType, materialQuantity)) {
+    return;
+  }
+  const material = materialData.find((item) => item.item === materialType);
   const tableBody = document.querySelector("#table tbody");
   const newRow = tableBody.insertRow();
 
@@ -370,7 +449,7 @@ function deleteAllRows() {
 }
 
 function calculateTotalPrice() {
-  const priceCells = document.querySelectorAll("#table tbody td:nth-child(6)"); // 가격 셀 선택
+  const priceCells = document.querySelectorAll("#table tbody td:nth-child(6)");
   let totalPrice = 0;
 
   priceCells.forEach((cell) => {
@@ -390,6 +469,31 @@ function calculateTotalPrice() {
   }
 
   document.getElementById("totalPrice").textContent = "총 견적 금액: " + totalPrice.toLocaleString() + "원";
+
+  const unit1000 = Math.floor(totalPrice / 1000);
+  const unit100 = Math.floor((totalPrice % 1000) / 100);
+
+  document.getElementById("unit1000").textContent = `1000원 단위 ${unit1000}개`;
+  document.getElementById("unit100").textContent = `100원 단위 ${unit100}개`;
+}
+
+function validateOrderInfo({ customerName, customerContact, tableData }) {
+  if (!customerName || customerName.trim() === "") {
+    alert("주문자명을 입력해주세요.");
+    return false;
+  }
+
+  if (!customerContact || customerContact.trim() === "") {
+    alert("연락처를 입력해주세요.");
+    return false;
+  }
+
+  if (!tableData || tableData.length === 0) {
+    alert("주문서에 담긴 항목이 없습니다.");
+    return false;
+  }
+
+  return true;
 }
 
 async function sendOrderEmail() {
@@ -418,20 +522,19 @@ async function sendOrderEmail() {
     tableData,
   };
 
-  console.log(emailData);
+  if (!validateOrderInfo(emailData)) {
+    return;
+  }
 
   try {
-    const response = await fetch("/sendEmail", {
+    await fetch("https://script.google.com/macros/s/AKfycbw5xeHQ26bjBvHIVVUNA6qDbL3lxZQpL75mvIxRormgrWgkzBVtH3_q6ALSgbKX_JKA/exec", {
       method: "POST",
+      mode: "no-cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(emailData),
     });
 
-    if (response.ok) {
-      alert("이메일이 성공적으로 전송되었습니다.");
-    } else {
-      alert("이메일 전송에 실패했습니다. 판매자에게 문의해주세요.");
-    }
+    alert("견적서가 전송되었습니다!");
   } catch (error) {
     console.error("이메일 전송 오류:", error);
     alert("이메일 전송 중 오류가 발생했습니다.");
