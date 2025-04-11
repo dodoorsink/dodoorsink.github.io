@@ -15,7 +15,6 @@
         <div class="step">
           <h1 class="mb-3">도어</h1>
           <div class="row mb-3">
-            <!-- 도어 종류 선택 -->
             <label class="col-md-1 col-lg-1 form-label">도어</label>
             <div class="col-md-5 col-lg-4">
               <select name="option_door" id="option_door" class="form-control" onchange="select_door(this)">
@@ -28,16 +27,13 @@
               </select>
             </div>
 
-            <!-- 구분 : 유광, 무광 선택 -->
             <label for="division" class="col-md-1 col-lg-1 offset-lg-2 form-label">구분</label>
             <div class="col-md-5 col-lg-4">
               <select name="option_division" id="option_division" class="form-control" onchange="updateColorOptions(this)">
                 <option value="">선택하세요</option>
-                <!-- 유광/무광 옵션은 도어 종류가 선택되면 추가됩니다. -->
               </select>
             </div>
           </div>
-
           <div class="row mb-3">
             <label class="col-md-1 col-lg-1 form-label">색상</label>
             <div class="col-md-5 col-lg-4">
@@ -54,7 +50,6 @@
           </div>
 
           <div class="row mb-3">
-            <!-- 가로 -->
             <label for="door_width" class="col-md-1 col-lg-1 form-label">가로</label>
             <div class="col-md-5 col-lg-4">
               <div class="input-group">
@@ -62,10 +57,8 @@
                 <input type="text" style="text-align: center" class="form-control" id="door_width" placeholder="가로" />
                 <button class="btn btn-increment btn-outline-secondary btn-plus" type="button" onclick="adjustDoorWidth(1)">+</button>
               </div>
-              <p>(최소 60mm ~ 최대 1200mm)</p>
+              <p>(최대 1200mm)</p>
             </div>
-
-            <!-- 세로 -->
             <label for="door_height" class="col-md-1 col-lg-1 offset-lg-2 form-label">세로</label>
             <div class="col-md-5 col-lg-4">
               <div class="input-group">
@@ -73,7 +66,7 @@
                 <input type="text" style="text-align: center" class="form-control" id="door_height" placeholder="세로" />
                 <button class="btn btn-increment btn-outline-secondary btn-plus" type="button" onclick="adjustDoorHeight(1)">+</button>
               </div>
-              <p>(최소 100mm ~ 최대 2400mm)</p>
+              <p>(최대 2400mm)</p>
             </div>
           </div>
 
@@ -90,7 +83,6 @@
             </div>
           </div>
           <div class="row mb-3">
-            <!-- 수량 -->
             <label for="quantity" class="col-md-1 col-lg-1 form-label">수량</label>
             <div class="col-md-5 col-lg-4">
               <div class="input-group">
@@ -123,12 +115,12 @@
                 <input type="checkbox" name="shelf" id="shelf_5" value="서랍" class="form-check-input" onclick="toggleCheckbox(this)" />
               </div>
               <div class="form-check form-check-inline">
-                <label for="shelf_6" class="form-check-label">마감판</label>
-                <input type="checkbox" name="shelf" id="shelf_6" value="마감판" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <label for="shelf_6" class="form-check-label">붙박이</label>
+                <input type="checkbox" name="shelf" id="shelf_6" value="붙박이" class="form-check-input" onclick="toggleCheckbox(this)" />
               </div>
               <div class="form-check form-check-inline">
-                <label for="shelf_7" class="form-check-label">붙박이</label>
-                <input type="checkbox" name="shelf" id="shelf_7" value="붙박이" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <label for="shelf_7" class="form-check-label">마감판</label>
+                <input type="checkbox" name="shelf" id="shelf_7" value="마감판" class="form-check-input" onclick="toggleCheckbox(this)" />
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_8" class="form-check-label">걸레받이</label>
@@ -146,8 +138,6 @@
             </div>
           </div>
         </div>
-
-        <!-- fbar -->
         <div class="step">
           <h3 class="mb-3"><span style="font-size: 36px">F바</span><span style="font-size: 20px">(피스 필요없는 끼움바,높이30mm)</span></h3>
           <h6 class="mb-3">주문시 도어사이즈 30mm 감안해주시기 바랍니다.</h6>
@@ -177,7 +167,6 @@
               </div>
               <p>(최소 100mm ~ 최대 2400mm)</p>
             </div>
-
             <label for="fbarQuantity" class="col-md-1 col-lg-1 offset-lg-2 form-label">수량</label>
             <div class="col-md-5 col-lg-4">
               <div class="input-group">
@@ -197,12 +186,10 @@
             </div>
           </div>
         </div>
-
-        <!-- 부자재 -->
         <div class="step">
           <h1 class="mb-3">부자재</h1>
           <div class="row mb-3">
-            <label for="option_material" class="col-md-1 form-label">색상</label>
+            <label for="option_material" class="col-md-1 form-label">종류</label>
             <div class="col-md-5 col-lg-4">
               <select name="option_material" id="option_material" class="form-control">
                 <option value="">선택하세요</option>
@@ -227,7 +214,6 @@
             </div>
           </div>
         </div>
-
         <div class="table-responsive">
           <table class="table" id="table">
             <thead>
@@ -248,6 +234,8 @@
           <div id="totalPriceBox" style="display: inline-block; padding: 10px 20px; background-color: #f0f0f0; border-radius: 5px">
             <p id="totalPrice" style="margin: 0">총 견적 금액</p>
           </div>
+          <div id="unit1000">1000원 단위</div>
+          <div id="unit100">100원 단위</div>
         </div>
 
         <button id="deleteSelected" class="btn btn-warning btn-sm" onclick="deleteSelectedRows()">선택 지우기</button>
@@ -283,8 +271,6 @@
         </div>
       </form>
     </div>
-
-    <!-- 자바스크립트 -->
     <script src="script.js"></script>
   </body>
 </html>
