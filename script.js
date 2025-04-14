@@ -106,15 +106,6 @@ function adjustDoorQuantity(delta) {
   quantityInput.value = quantity;
 }
 
-function toggleCheckbox(currentCheckbox) {
-  const checkboxes = document.querySelectorAll('input[name="shelf"]');
-  checkboxes.forEach((checkbox) => {
-    if (checkbox !== currentCheckbox) {
-      checkbox.checked = false;
-    }
-  });
-}
-
 function getUnitValue(units, value) {
   for (let unit of units) {
     if (value <= unit) return unit;
@@ -379,13 +370,15 @@ function getMaterialData() {
     });
 }
 
-function adjustMaterialQuantity(delta) {
-  const quantityInput = document.getElementById("materialQuantity");
-  let quantity = parseInt(quantityInput.value) || 0;
+function handleMaterialChange(selectElement) {
+  const materialWidthInput = document.getElementById("materialWidth");
 
-  quantity += delta;
-  quantity = Math.max(1, quantity);
-  quantityInput.value = quantity;
+  if (selectElement.value === "2구 손잡이 홀타공(도어개수로주문)") {
+    materialWidthInput.disabled = false;
+  } else {
+    materialWidthInput.disabled = true;
+    materialWidthInput.value = ""; // 필요시 초기화
+  }
 }
 
 function adjustMaterialQuantity(delta) {
@@ -397,7 +390,16 @@ function adjustMaterialQuantity(delta) {
   quantityInput.value = quantity;
 }
 
-function validateMaterialInput(materialType, materialQuantity) {
+function adjustMaterialQuantity(delta) {
+  const quantityInput = document.getElementById("materialQuantity");
+  let quantity = parseInt(quantityInput.value) || 0;
+
+  quantity += delta;
+  quantity = Math.max(1, quantity);
+  quantityInput.value = quantity;
+}
+
+function validateMaterialInput(materialType, materialQuantity, materialWidth) {
   if (!materialType) {
     alert("종류를 선택해주세요.");
     return false;
@@ -407,14 +409,21 @@ function validateMaterialInput(materialType, materialQuantity) {
     alert("수량을 확인해주세요.");
     return false;
   }
+
+  if (materialType === "2구 손잡이 홀타공(도어개수로주문)" && !materialWidth) {
+    alert("길이를 확인해주세요.");
+    return false;
+  }
+
   return true;
 }
 
 function addMaterialToTable() {
   const materialType = document.getElementById("option_material").value;
   const materialQuantity = parseInt(document.getElementById("materialQuantity").value);
+  const materialWidth = document.getElementById("materialWidth").value;
 
-  if (!validateMaterialInput(materialType, materialQuantity)) {
+  if (!validateMaterialInput(materialType, materialQuantity, materialWidth)) {
     return;
   }
   const material = materialData.find((item) => item.item === materialType);
@@ -430,7 +439,11 @@ function addMaterialToTable() {
   cell2.classList.add("text-center");
 
   const cell3 = newRow.insertCell();
-  cell3.textContent = "-";
+  if (materialWidth) {
+    cell3.textContent = materialWidth;
+  } else {
+    cell3.textContent = "-";
+  }
   cell3.classList.add("text-center");
 
   const cell4 = newRow.insertCell();
