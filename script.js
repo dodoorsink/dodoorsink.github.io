@@ -164,6 +164,7 @@ function validateDoorInput(values) {
 async function addDoorToTable() {
   const values = {
     type: document.getElementById("option_door").value,
+    division: document.getElementById("option_division").value,
     color: document.getElementById("option_color").value,
     ncDesign: document.getElementById("option_nc").value,
     width: parseInt(document.getElementById("door_width").value),
@@ -218,6 +219,14 @@ async function addDoorToTable() {
       const nc = values.ncDesign;
       const isHighNC = nc === "킹덤" || nc === "웨인스";
       const isMidNC = nc === "(21T)미란다" || nc === "(21T)그랑디아";
+
+      if (values.type.includes("도장") && !values.color.includes("화이트")) {
+        if (values.division === "무광") {
+          totalPrice *= 1.2;
+        } else if (values.division === "유광") {
+          totalPrice *= 1.3;
+        }
+      }
 
       if (hasBackPaint && (isHighNC || isMidNC)) {
         if (isHighNC) {
