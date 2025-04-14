@@ -96,39 +96,39 @@
             <div class="col-xs-6 mx-auto">
               <div class="form-check form-check-inline">
                 <label for="shelf_1" class="form-check-label">후면도장</label>
-                <input type="checkbox" name="shelf" id="shelf_1" value="후면도장" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <input type="checkbox" name="shelf" id="shelf_1" value="후면도장" class="form-check-input"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_2" class="form-check-label">상부장</label>
-                <input type="checkbox" name="shelf" id="shelf_2" value="상부장" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <input type="checkbox" name="shelf" id="shelf_2" value="상부장" class="form-check-input"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_3" class="form-check-label">하부장</label>
-                <input type="checkbox" name="shelf" id="shelf_3" value="하부장" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <input type="checkbox" name="shelf" id="shelf_3" value="하부장" class="form-check-input"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_4" class="form-check-label">플랩,후드장</label>
-                <input type="checkbox" name="shelf" id="shelf_4" value="플랩,후드장" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <input type="checkbox" name="shelf" id="shelf_4" value="플랩,후드장" class="form-check-input"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_5" class="form-check-label">서랍</label>
-                <input type="checkbox" name="shelf" id="shelf_5" value="서랍" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <input type="checkbox" name="shelf" id="shelf_5" value="서랍" class="form-check-input"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_6" class="form-check-label">붙박이</label>
-                <input type="checkbox" name="shelf" id="shelf_6" value="붙박이" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <input type="checkbox" name="shelf" id="shelf_6" value="붙박이" class="form-check-input"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_7" class="form-check-label">마감판</label>
-                <input type="checkbox" name="shelf" id="shelf_7" value="마감판" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <input type="checkbox" name="shelf" id="shelf_7" value="마감판" class="form-check-input"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_8" class="form-check-label">걸레받이</label>
-                <input type="checkbox" name="shelf" id="shelf_8" value="걸레받이" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <input type="checkbox" name="shelf" id="shelf_8" value="걸레받이" class="form-check-input"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_9" class="form-check-label">몰딩</label>
-                <input type="checkbox" name="shelf" id="shelf_9" value="몰딩" class="form-check-input" onclick="toggleCheckbox(this)" />
+                <input type="checkbox" name="shelf" id="shelf_9" value="몰딩" class="form-check-input"/>
               </div>
             </div>
           </div>
@@ -191,7 +191,7 @@
           <div class="row mb-3">
             <label for="option_material" class="col-md-1 form-label">종류</label>
             <div class="col-md-5 col-lg-4">
-              <select name="option_material" id="option_material" class="form-control">
+              <select name="option_material" id="option_material" class="form-control" onchange="handleMaterialChange(this)">
                 <option value="">선택하세요</option>
               </select>
             </div>
@@ -206,6 +206,12 @@
                   <button style="min-width: 2.5rem" class="btn btn-increment btn-outline-secondary btn-plus" type="button" onclick="adjustMaterialQuantity(+1)"><strong>+</strong></button>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="materialWidth" class="col-md-1 col-lg-1 form-label">길이</label>
+            <div class="col-md-5 col-lg-4">
+                <input type="text" class="form-control" id="materialWidth" placeholder="2구 손잡이 선택시 작성" disabled/>
             </div>
           </div>
           <div class="row mb-5">
