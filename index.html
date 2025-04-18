@@ -54,7 +54,7 @@
             <div class="col-md-5 col-lg-4">
               <div class="input-group">
                 <button class="btn btn-decrement btn-outline-secondary btn-minus" type="button" onclick="adjustDoorWidth(-1)">−</button>
-                <input type="text" style="text-align: center" class="form-control" id="door_width" placeholder="가로" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" style="text-align: center" class="form-control" id="door_width" placeholder="가로" />
                 <button class="btn btn-increment btn-outline-secondary btn-plus" type="button" onclick="adjustDoorWidth(1)">+</button>
               </div>
               <p>(최대 1200mm)</p>
@@ -63,7 +63,7 @@
             <div class="col-md-5 col-lg-4">
               <div class="input-group">
                 <button class="btn btn-decrement btn-outline-secondary btn-minus" type="button" onclick="adjustDoorHeight(-1)">−</button>
-                <input type="text" style="text-align: center" class="form-control" id="door_height" placeholder="세로" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" style="text-align: center" class="form-control" id="door_height" placeholder="세로" />
                 <button class="btn btn-increment btn-outline-secondary btn-plus" type="button" onclick="adjustDoorHeight(1)">+</button>
               </div>
               <p>(최대 2400mm)</p>
@@ -87,7 +87,7 @@
             <div class="col-md-5 col-lg-4">
               <div class="input-group">
                 <button class="btn btn-decrement btn-outline-secondary btn-minus" type="button" onclick="adjustDoorQuantity(-1)">−</button>
-                <input type="text" style="text-align: center" class="form-control" id="quantity" placeholder="수량" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" style="text-align: center" class="form-control" id="quantity" placeholder="수량" />
                 <button class="btn btn-increment btn-outline-secondary btn-plus" type="button" onclick="adjustDoorQuantity(1)">+</button>
               </div>
             </div>
@@ -112,7 +112,7 @@
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_5" class="form-check-label">서랍</label>
-                <input type="checkbox" name="shelf" id="shelf_5" value="서랍" class="form-check-input"/>
+                <input type="checkbox" name="shelf" id="shelf_5" value="서랍" class="form-check-input" onchange="handleShelfChange()"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_6" class="form-check-label">붙박이</label>
@@ -120,15 +120,15 @@
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_7" class="form-check-label">마감판</label>
-                <input type="checkbox" name="shelf" id="shelf_7" value="마감판" class="form-check-input"/>
+                <input type="checkbox" name="shelf" id="shelf_7" value="마감판" class="form-check-input" onchange="handleShelfChange()"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_8" class="form-check-label">걸레받이</label>
-                <input type="checkbox" name="shelf" id="shelf_8" value="걸레받이" class="form-check-input"/>
+                <input type="checkbox" name="shelf" id="shelf_8" value="걸레받이" class="form-check-input" onchange="handleShelfChange()"/>
               </div>
               <div class="form-check form-check-inline">
                 <label for="shelf_9" class="form-check-label">몰딩</label>
-                <input type="checkbox" name="shelf" id="shelf_9" value="몰딩" class="form-check-input"/>
+                <input type="checkbox" name="shelf" id="shelf_9" value="몰딩" class="form-check-input" onchange="handleShelfChange()"/>
               </div>
             </div>
           </div>
@@ -160,7 +160,7 @@
                 <div class="input-group-prepend">
                   <button style="min-width: 2.5rem" class="btn btn-decrement btn-outline-secondary btn-minus" type="button" onclick="adjustFbarWidth(-1)"><strong>−</strong></button>
                 </div>
-                <input type="text" style="text-align: center" class="form-control" id="fbarWidth" placeholder="길이" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" style="text-align: center" class="form-control" id="fbarWidth" placeholder="길이" />
                 <div class="input-group-append">
                   <button style="min-width: 2.5rem" class="btn btn-increment btn-outline-secondary btn-plus" type="button" onclick="adjustFbarWidth(1)"><strong>+</strong></button>
                 </div>
@@ -173,7 +173,7 @@
                 <div class="input-group-prepend">
                   <button style="min-width: 2.5rem" class="btn btn-decrement btn-outline-secondary btn-minus" type="button" onclick="adjustFbarQuantity(-1)"><strong>−</strong></button>
                 </div>
-                <input type="text" style="text-align: center" class="form-control" id="fbarQuantity" placeholder="수량" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" style="text-align: center" class="form-control" id="fbarQuantity" placeholder="수량" />
                 <div class="input-group-append">
                   <button style="min-width: 2.5rem" class="btn btn-increment btn-outline-secondary btn-plus" type="button" onclick="adjustFbarQuantity(+1)"><strong>+</strong></button>
                 </div>
@@ -201,7 +201,7 @@
                 <div class="input-group-prepend">
                   <button style="min-width: 2.5rem" class="btn btn-decrement btn-outline-secondary btn-minus" type="button" onclick="adjustMaterialQuantity(-1)"><strong>−</strong></button>
                 </div>
-                <input type="text" style="text-align: center" class="form-control" id="materialQuantity" placeholder="수량" />
+                <input type="text" inputmode="numeric" pattern="[0-9]*" style="text-align: center" class="form-control" id="materialQuantity" placeholder="수량" />
                 <div class="input-group-append">
                   <button style="min-width: 2.5rem" class="btn btn-increment btn-outline-secondary btn-plus" type="button" onclick="adjustMaterialQuantity(+1)"><strong>+</strong></button>
                 </div>
@@ -211,7 +211,7 @@
           <div class="row mb-3">
             <label for="materialWidth" class="col-md-1 col-lg-1 form-label">길이</label>
             <div class="col-md-5 col-lg-4">
-                <input type="text" class="form-control" id="materialWidth" placeholder="2구 손잡이 선택시 작성" disabled/>
+                <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="materialWidth" placeholder="2구 손잡이 선택시 작성" disabled/>
             </div>
           </div>
           <div class="row mb-5">
