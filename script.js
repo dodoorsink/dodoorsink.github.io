@@ -106,6 +106,22 @@ function adjustDoorQuantity(delta) {
   quantityInput.value = quantity;
 }
 
+function handleShelfChange() {
+  const disableTargets = ["shelf_5", "shelf_7", "shelf_8", "shelf_9"];
+  const hingeInput = document.getElementById("door_hinges");
+
+  const shouldDisable = disableTargets.some((id) => {
+    const shelf = document.getElementById(id);
+    return shelf && shelf.checked;
+  });
+
+  hingeInput.disabled = shouldDisable;
+
+  if (shouldDisable) {
+    hingeInput.value = "";
+  }
+}
+
 function getUnitValue(units, value) {
   for (let unit of units) {
     if (value <= unit) return unit;
@@ -134,7 +150,8 @@ function validateDoorInput(values) {
     return false;
   }
 
-  if (!values.hinges) {
+  const hingeInput = document.getElementById("door_hinges");
+  if (!hingeInput.disabled && !values.hinges.trim()) {
     alert("경첩란을 확인해주세요.");
     return false;
   }
