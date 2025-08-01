@@ -558,6 +558,7 @@ function validateOrderInfo({ customerName, customerContact, tableData }) {
 async function sendOrderEmail() {
   const customerName = document.getElementById("customerName").value;
   const customerContact = document.getElementById("customerContact").value;
+  const customerEmail = document.getElementById("customerEmail").value;
   const customerRequirements = document.getElementById("customerRequirements").value;
   const totalPrice = document.getElementById("totalPrice").textContent.replace(/[^0-9]/g, "") || 0;
 
@@ -576,6 +577,7 @@ async function sendOrderEmail() {
   const emailData = {
     customerName,
     customerContact,
+    customerEmail,
     customerRequirements,
     totalPrice,
     tableData,
@@ -586,7 +588,7 @@ async function sendOrderEmail() {
   }
 
   try {
-    await fetch("https://script.google.com/macros/s/AKfycbw5xeHQ26bjBvHIVVUNA6qDbL3lxZQpL75mvIxRormgrWgkzBVtH3_q6ALSgbKX_JKA/exec", {
+    await fetch("https://script.google.com/macros/s/AKfycbys0Dt9wlcSgV1gDZM0YjoeEhP6aVIohQrWkeUC4jjIshQsuDURBcpFHL7oh6FjyeA1/exec", {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
