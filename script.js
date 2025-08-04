@@ -595,7 +595,7 @@ async function sendOrderEmail() {
   }
 
   try {
-    await fetch("https://script.google.com/macros/s/AKfycbztam8qIRs5GWm4Jow8Qd50W3J5NJ4KvKHsa3_tB93j0VPXGDSDdq__2Yel0rU0r1Z9/exec", {
+    await fetch("https://script.google.com/macros/s/AKfycbwXNwsn0xTC75nmi4LfYIi8278_4tlFhZQw6cNdDt2gCpBCXp62xLzy7BbJTV5ugkGr/exec", {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
