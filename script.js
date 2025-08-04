@@ -536,7 +536,7 @@ function calculateTotalPrice() {
   document.getElementById("unit100").textContent = `100원 단위 ${unit100}개`;
 }
 
-function validateOrderInfo({ customerName, customerContact, tableData }) {
+function validateOrderInfo({ customerName, customerContact, customerEmail, tableData }) {
   if (!customerName || customerName.trim() === "") {
     alert("주문자명을 입력해주세요.");
     return false;
@@ -552,6 +552,13 @@ function validateOrderInfo({ customerName, customerContact, tableData }) {
     return false;
   }
 
+  if (customerEmail && customerEmail.trim() !== "") {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(customerEmail.trim())) {
+      alert("이메일 형식이 올바르지 않습니다.");
+      return false;
+    }
+  }
   return true;
 }
 
@@ -588,7 +595,7 @@ async function sendOrderEmail() {
   }
 
   try {
-    await fetch("https://script.google.com/macros/s/AKfycbys0Dt9wlcSgV1gDZM0YjoeEhP6aVIohQrWkeUC4jjIshQsuDURBcpFHL7oh6FjyeA1/exec", {
+    await fetch("https://script.google.com/macros/s/AKfycbztam8qIRs5GWm4Jow8Qd50W3J5NJ4KvKHsa3_tB93j0VPXGDSDdq__2Yel0rU0r1Z9/exec", {
       method: "POST",
       mode: "no-cors",
       headers: { "Content-Type": "application/json" },
