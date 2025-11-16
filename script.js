@@ -93,7 +93,7 @@ function adjustDoorHeight(delta) {
   let height = parseInt(heightInput.value) || 0;
 
   height += delta * 100;
-  height = Math.max(0, Math.min(height, 2400));
+  height = Math.max(0, Math.min(height, 2440));
   heightInput.value = height;
 }
 
@@ -145,8 +145,8 @@ function validateDoorInput(values) {
     return false;
   }
 
-  if (!values.height || values.height < 0 || values.height > 2400) {
-    alert("세로 수치를 확인해주세요. (최대 2400mm)");
+  if (!values.height || values.height < 0 || values.height > 2440) {
+    alert("세로 수치를 확인해주세요. (최대 2440mm)");
     return false;
   }
 
@@ -191,8 +191,9 @@ async function addDoorToTable() {
 
   const widthUnits = [199, 399, 499, 599, 699, 799, 899, 999, 1099, 1199, 1200];
   const heightUnits = [399, 499, 599, 699, 799, 899, 999, 1099, 1199, 1299, 1399, 1499, 1599, 1699, 1799, 1899, 1999, 2099, 2199, 2299, 2399, 2400];
-  const unitWidth = getUnitValue(widthUnits, values.width);
-  const unitHeight = getUnitValue(heightUnits, values.height);
+  var unitWidth = getUnitValue(widthUnits, values.width);
+  var unitHeight = getUnitValue(heightUnits, values.height);
+  if (values.height == 2440) unitHeight = 2400; // temp
 
   const cell1 = newRow.insertCell();
   cell1.innerHTML = '<input type="checkbox">';
